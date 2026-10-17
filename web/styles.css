@@ -1,0 +1,228 @@
+/* Baton Replay UI. Off-white, black type, one red accent, thin rules. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #faf8f3;
+  color: #111;
+  font-family: "Helvetica Neue", Helvetica, "Arial Narrow", Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.page-header {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 20px 16px;
+  border-bottom: 2px solid #111;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tagline {
+  margin: 12px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.honest-note {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #444;
+}
+
+.case-nav {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid #111;
+}
+
+.case-nav button,
+.load-row button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  background: transparent;
+  color: #111;
+  border: 2px solid #111;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.case-nav button.active {
+  background: #111;
+  color: #faf8f3;
+}
+
+.load-own {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px;
+  border-bottom: 1px solid #111;
+}
+
+.load-own h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.load-own p { margin: 4px 0 12px; font-size: 14px; }
+
+.load-own label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.load-own textarea {
+  width: 100%;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  border: 1px solid #111;
+  background: #fff;
+  padding: 10px;
+}
+
+.load-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.error { color: #111; font-weight: 700; min-height: 1.2em; }
+
+#replay, .provenance {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.objective {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+
+.meta {
+  font-size: 13px;
+  color: #444;
+  margin: 0 0 24px;
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.episode {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.episode h3 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.red-rule {
+  height: 4px;
+  background: #d00;
+  border: 0;
+  margin: 0 0 10px;
+}
+
+.episode p { margin: 0; font-size: 16px; }
+
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.panel {
+  border-top: 2px solid #111;
+  padding-top: 10px;
+}
+
+.panel h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.panel ul, .section ul { margin: 0; padding-left: 18px; }
+.panel li, .section li { margin-bottom: 6px; font-size: 15px; }
+
+.section {
+  border-top: 1px solid #111;
+  padding: 14px 0;
+}
+
+.section h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.evidence {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  color: #555;
+}
+
+.receipt { margin-bottom: 10px; }
+.receipt .status { font-weight: 700; }
+.receipt .detail { color: #444; }
+
+.checks { list-style: none; padding-left: 0; }
+.checks li { margin-bottom: 6px; font-size: 14px; }
+.check-mark { font-weight: 800; margin-right: 6px; }
+
+.provenance {
+  border-top: 2px solid #111;
+  font-size: 14px;
+  color: #444;
+}
+
+.provenance h2 {
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #111;
+  margin: 0 0 6px;
+}
+
+.provenance p { margin: 4px 0; }
+
+@media (max-width: 760px) {
+  .episode, .panels { grid-template-columns: 1fr; }
+  .page-header h1 { font-size: 38px; }
+}

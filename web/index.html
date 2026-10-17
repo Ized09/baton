@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baton: Director's Cut</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="page-header">
+  <p class="eyebrow">AOS BATON</p>
+  <h1>Director's Cut</h1>
+  <p class="tagline">AI agents remember what they said. Baton helps you see what they did.</p>
+  <p class="honest-note">This page renders handoff files. It does not run live extraction.</p>
+</header>
+
+<nav class="case-nav" aria-label="Proof cases">
+  <button type="button" data-case="never-executed">Never executed</button>
+  <button type="button" data-case="completed-unreported">Completed, never reported</button>
+  <button type="button" data-case="accepted-unknown">Accepted, delivery unknown</button>
+</nav>
+
+<section class="load-own" aria-label="Load your own handoff">
+  <h2>Load your own handoff</h2>
+  <p>Paste a handoff.json below, or choose a file. The page renders it locally. Nothing is uploaded.</p>
+  <label for="paste-input">Paste handoff JSON</label>
+  <textarea id="paste-input" rows="6" spellcheck="false" placeholder="Paste handoff JSON here"></textarea>
+  <div class="load-row">
+    <input type="file" id="file-input" accept=".json,application/json">
+    <button type="button" id="render-paste">Render pasted handoff</button>
+  </div>
+  <p class="error" id="load-error" role="alert"></p>
+</section>
+
+<main id="replay" aria-live="polite"></main>
+
+<section class="provenance" id="provenance" aria-label="How this handoff was made"></section>
+
+<script src="app.js"></script>
+</body>
+</html>
