@@ -1,0 +1,12 @@
+__pycache__/
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+*.db
+*.sqlite
+*.sqlite-journal
+token_log.jsonl
+.env
+handoff.json
+handoff.md

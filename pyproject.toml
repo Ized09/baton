@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "baton"
+version = "0.1.0"
+description = "AOS Baton: Director's Cut — did the agent actually do it? Source-linked recovery for interrupted agent work."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Amedu Isaiah" }]
+
+[project.scripts]
+baton = "baton.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
