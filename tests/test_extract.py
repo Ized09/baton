@@ -47,6 +47,44 @@ def test_accepted_unknown_needs_delivery_confirmation():
     assert not result.completed  # accepted is not completed
 
 
+def test_recorded_failure_surfaces_as_failed():
+    data = {
+        "id": "bundle-failure",
+        "objective": "Run the migration.",
+        "events": [
+            {
+                "id": "evt-001",
+                "ts": "2026-10-13T10:00:00Z",
+                "type": "agent_message",
+                "text": "I'll run the migration.",
+            },
+            {
+                "id": "evt-002",
+                "ts": "2026-10-13T10:01:00Z",
+                "type": "tool_call",
+                "status": "started",
+                "text": "Running the migration.",
+            },
+            {
+                "id": "evt-003",
+                "ts": "2026-10-13T10:02:00Z",
+                "type": "tool_result",
+                "status": "failure",
+                "ref_ids": ["evt-002"],
+                "text": "Migration failed: table locked.",
+            },
+        ],
+        "artifacts": [],
+    }
+    result = _extract("fixture-never-executed.json", data)
+    assert len(result.failed) == 1
+    assert result.failed[0]["evidence"] == ["evt-003"]
+    assert "failed" in result.episode["plot_twist"]
+    assert result.next_step["step"] == "Review the recovery record."
+    assert result.next_step["evidence"] == ["evt-003"]
+    assert not result.completed  # a failure is not completed work
+
+
 def test_tampered_artifact_surfaces_as_changed_and_contradiction():
     data = load_fixture("fixture-completed-unreported.json")
     data["artifacts"][0]["content"] += "tampered line\n"

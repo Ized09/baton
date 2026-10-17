@@ -119,6 +119,33 @@ def test_successful_extraction_parse_and_request_shape():
     # The reasoning field is present in the response but must never leak.
     assert SECRET_REASONING not in json.dumps(dataclasses.asdict(result))
 
+
+def test_failed_field_surfaced_from_model_output():
+    capture: dict = {}
+    payload = _api_response(
+        content=json.dumps(
+            _model_output(
+                failed=[{"claim": "Migration failed", "evidence": ["evt-003"], "artifacts": []}]
+            )
+        )
+    )
+    ext = _extractor(transport=_transport_factory(payload, capture))
+    bundle, checks = _bundle_and_checks()
+    result = ext.extract(bundle, checks)
+    assert len(result.failed) == 1
+    assert result.failed[0]["evidence"] == ["evt-003"]
+
+
+def test_failed_field_optional_in_model_output():
+    # _model_output() has no "failed" key; validation must still pass and
+    # treat a missing "failed" as an empty list.
+    capture: dict = {}
+    payload = _api_response(content=json.dumps(_model_output()))
+    ext = _extractor(transport=_transport_factory(payload, capture))
+    bundle, checks = _bundle_and_checks()
+    result = ext.extract(bundle, checks)
+    assert result.failed == []
+
     request = capture["request"]
     assert request.full_url.endswith("/chat/completions")
     body = json.loads(request.data.decode("utf-8"))
