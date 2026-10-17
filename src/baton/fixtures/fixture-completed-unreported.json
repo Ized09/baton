@@ -1,0 +1,41 @@
+{
+  "approvals": [],
+  "artifacts": [
+    {
+      "content": "# v0.3\n\n- Faster startup.\n- Fixed the settings crash.\n",
+      "id": "art-changelog",
+      "path": "CHANGELOG.md",
+      "sha256": "14c9f281453e82f0185d8f2401831812cdf1a102bd3194cf7888246419e81447"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll write the release notes for v0.3.",
+      "ts": "2026-10-13T11:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "artifact_id": "art-changelog",
+      "id": "evt-002",
+      "status": "success",
+      "text": "Wrote release notes to CHANGELOG.md.",
+      "ts": "2026-10-13T11:01:00Z",
+      "type": "tool_call"
+    },
+    {
+      "artifact_id": "art-changelog",
+      "id": "evt-003",
+      "ref_ids": [
+        "evt-002"
+      ],
+      "status": "success",
+      "text": "Verified CHANGELOG.md contains the v0.3 notes.",
+      "ts": "2026-10-13T11:01:30Z",
+      "type": "tool_result"
+    }
+  ],
+  "id": "bundle-completed-unreported",
+  "objective": "Write the release notes for v0.3 and save them to CHANGELOG.md.",
+  "receipts": []
+}

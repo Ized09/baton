@@ -1,0 +1,41 @@
+{
+  "approvals": [],
+  "artifacts": [
+    {
+      "content": "INVOICE 1042\nAmount: 400000 NGN\nStatus: issued\n",
+      "id": "art-invoice",
+      "path": "invoices/inv-1042.pdf",
+      "sha256": "de8ebcdf74fd0c41f69fa595dd42bb7a69244a2c173050089b44b1f1d0a44576"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll send the invoice to the client.",
+      "ts": "2026-10-13T12:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "artifact_id": "art-invoice",
+      "id": "evt-002",
+      "receipt_id": "rcpt-001",
+      "status": "accepted",
+      "text": "Sent the invoice to the client.",
+      "ts": "2026-10-13T12:01:00Z",
+      "type": "tool_call"
+    }
+  ],
+  "id": "bundle-accepted-unknown",
+  "objective": "Send the invoice PDF to the client.",
+  "receipts": [
+    {
+      "delivered": null,
+      "detail": "Provider accepted the message; no delivery confirmation received.",
+      "event_id": "evt-002",
+      "id": "rcpt-001",
+      "message_id": "msg-1042",
+      "provider": "mail-provider",
+      "status": "accepted"
+    }
+  ]
+}

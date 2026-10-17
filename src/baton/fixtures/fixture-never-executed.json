@@ -1,0 +1,44 @@
+{
+  "approvals": [
+    {
+      "event_id": "evt-003",
+      "id": "appr-001",
+      "prompt": "Send this email to the team list?",
+      "status": "timed_out"
+    }
+  ],
+  "artifacts": [
+    {
+      "content": "# Weekly status\n\n- Shipped the onboarding fix.\n- Next: review the pricing page draft.\n",
+      "id": "art-draft",
+      "path": "drafts/weekly-status.md",
+      "sha256": "8c4a7af73cb2c5bc94d13c52584b536b0c5a8bc6ab0b0a557aa0f44278554ee5"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll draft the weekly status email and send it to the team list.",
+      "ts": "2026-10-13T10:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "artifact_id": "art-draft",
+      "id": "evt-002",
+      "status": "success",
+      "text": "Drafted the weekly status email.",
+      "ts": "2026-10-13T10:01:30Z",
+      "type": "tool_call"
+    },
+    {
+      "approval_id": "appr-001",
+      "id": "evt-003",
+      "text": "Send this email to the team list?",
+      "ts": "2026-10-13T10:02:00Z",
+      "type": "approval_request"
+    }
+  ],
+  "id": "bundle-never-executed",
+  "objective": "Send the weekly status email to the team list.",
+  "receipts": []
+}
