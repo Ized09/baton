@@ -1,0 +1,120 @@
+{
+  "record_id": "423fbe6a4832",
+  "bundle_id": "bundle-never-executed",
+  "objective": "Send the weekly status email to the team list.",
+  "created_at": "2026-10-17T01:02:58.510237+00:00",
+  "episode": {
+    "previously": "Objective: Send the weekly status email to the team list. I'll draft the weekly status email and send it to the team list.",
+    "plot_twist": "An approval timed out before the command ran.",
+    "where_we_pick_up": "Resolve: Approval unresolved (timed_out): Send this email to the team list?"
+  },
+  "replay": {
+    "said": [
+      "I'll draft the weekly status email and send it to the team list."
+    ],
+    "receipts": [],
+    "changed": []
+  },
+  "completed": [
+    {
+      "claim": "Drafted the weekly status email. (drafts/weekly-status.md)",
+      "evidence": [
+        "evt-002"
+      ],
+      "artifacts": [
+        "art-draft"
+      ]
+    }
+  ],
+  "needs_you": [
+    {
+      "claim": "Approval unresolved (timed_out): Send this email to the team list?",
+      "evidence": [
+        "evt-003"
+      ],
+      "artifacts": []
+    }
+  ],
+  "changed": [],
+  "next": {
+    "step": "Resolve: Approval unresolved (timed_out): Send this email to the team list?",
+    "reason": "Something still needs you before this job can finish.",
+    "evidence": [
+      "evt-003"
+    ]
+  },
+  "contradictions": [],
+  "checks": [
+    {
+      "name": "timestamps_ordered",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Events are in non-decreasing timestamp order.",
+      "evidence": []
+    },
+    {
+      "name": "references_resolve",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All event references resolve.",
+      "evidence": []
+    },
+    {
+      "name": "artifacts_present",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every referenced artifact is present.",
+      "evidence": []
+    },
+    {
+      "name": "checksums_match",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All artifact checksums match their content.",
+      "evidence": []
+    },
+    {
+      "name": "receipts_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every receipt links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "approvals_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every approval links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "final_response_present",
+      "kind": "signal",
+      "passed": false,
+      "detail": "Session ended with no final response.",
+      "evidence": []
+    },
+    {
+      "name": "delivery_confirmed",
+      "kind": "signal",
+      "passed": true,
+      "detail": "No accepted sends to confirm.",
+      "evidence": []
+    },
+    {
+      "name": "all_approvals_resolved",
+      "kind": "signal",
+      "passed": false,
+      "detail": "Unresolved approvals: appr-001",
+      "evidence": [
+        "appr-001"
+      ]
+    }
+  ],
+  "extraction": {
+    "model": "stub-deterministic",
+    "tokens_in": 241,
+    "tokens_out": 0,
+    "estimated": true
+  }
+}

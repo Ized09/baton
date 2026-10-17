@@ -1,0 +1,110 @@
+{
+  "record_id": "6417180368c6",
+  "bundle_id": "bundle-completed-unreported",
+  "objective": "Write the release notes for v0.3 and save them to CHANGELOG.md.",
+  "created_at": "2026-10-17T01:02:58.603806+00:00",
+  "episode": {
+    "previously": "Objective: Write the release notes for v0.3 and save them to CHANGELOG.md. I'll write the release notes for v0.3.",
+    "plot_twist": "The work was completed but never reported.",
+    "where_we_pick_up": "Report the completed work to the user."
+  },
+  "replay": {
+    "said": [
+      "I'll write the release notes for v0.3."
+    ],
+    "receipts": [],
+    "changed": []
+  },
+  "completed": [
+    {
+      "claim": "Verified CHANGELOG.md contains the v0.3 notes. (CHANGELOG.md)",
+      "evidence": [
+        "evt-003"
+      ],
+      "artifacts": [
+        "art-changelog"
+      ]
+    }
+  ],
+  "needs_you": [],
+  "changed": [],
+  "next": {
+    "step": "Report the completed work to the user.",
+    "reason": "The work is done and verified, but the session ended before it was reported.",
+    "evidence": [
+      "evt-003"
+    ]
+  },
+  "contradictions": [],
+  "checks": [
+    {
+      "name": "timestamps_ordered",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Events are in non-decreasing timestamp order.",
+      "evidence": []
+    },
+    {
+      "name": "references_resolve",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All event references resolve.",
+      "evidence": []
+    },
+    {
+      "name": "artifacts_present",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every referenced artifact is present.",
+      "evidence": []
+    },
+    {
+      "name": "checksums_match",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All artifact checksums match their content.",
+      "evidence": []
+    },
+    {
+      "name": "receipts_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every receipt links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "approvals_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every approval links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "final_response_present",
+      "kind": "signal",
+      "passed": false,
+      "detail": "Session ended with no final response.",
+      "evidence": []
+    },
+    {
+      "name": "delivery_confirmed",
+      "kind": "signal",
+      "passed": true,
+      "detail": "No accepted sends to confirm.",
+      "evidence": []
+    },
+    {
+      "name": "all_approvals_resolved",
+      "kind": "signal",
+      "passed": true,
+      "detail": "All approvals resolved.",
+      "evidence": []
+    }
+  ],
+  "extraction": {
+    "model": "stub-deterministic",
+    "tokens_in": 219,
+    "tokens_out": 0,
+    "estimated": true
+  }
+}

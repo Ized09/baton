@@ -1,0 +1,119 @@
+{
+  "record_id": "d8827c19d044",
+  "bundle_id": "bundle-accepted-unknown",
+  "objective": "Send the invoice PDF to the client.",
+  "created_at": "2026-10-17T01:02:58.700146+00:00",
+  "episode": {
+    "previously": "Objective: Send the invoice PDF to the client. I'll send the invoice to the client.",
+    "plot_twist": "The send was accepted but delivery was never confirmed.",
+    "where_we_pick_up": "Resolve: Delivery unconfirmed for msg-1042 (provider mail-provider accepted it)."
+  },
+  "replay": {
+    "said": [
+      "I'll send the invoice to the client."
+    ],
+    "receipts": [
+      {
+        "id": "rcpt-001",
+        "provider": "mail-provider",
+        "status": "accepted",
+        "message_id": "msg-1042",
+        "delivered": null,
+        "detail": "Provider accepted the message; no delivery confirmation received."
+      }
+    ],
+    "changed": []
+  },
+  "completed": [],
+  "needs_you": [
+    {
+      "claim": "Delivery unconfirmed for msg-1042 (provider mail-provider accepted it).",
+      "evidence": [
+        "evt-002"
+      ],
+      "artifacts": []
+    }
+  ],
+  "changed": [],
+  "next": {
+    "step": "Resolve: Delivery unconfirmed for msg-1042 (provider mail-provider accepted it).",
+    "reason": "Something still needs you before this job can finish.",
+    "evidence": [
+      "evt-002"
+    ]
+  },
+  "contradictions": [],
+  "checks": [
+    {
+      "name": "timestamps_ordered",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Events are in non-decreasing timestamp order.",
+      "evidence": []
+    },
+    {
+      "name": "references_resolve",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All event references resolve.",
+      "evidence": []
+    },
+    {
+      "name": "artifacts_present",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every referenced artifact is present.",
+      "evidence": []
+    },
+    {
+      "name": "checksums_match",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All artifact checksums match their content.",
+      "evidence": []
+    },
+    {
+      "name": "receipts_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every receipt links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "approvals_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every approval links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "final_response_present",
+      "kind": "signal",
+      "passed": false,
+      "detail": "Session ended with no final response.",
+      "evidence": []
+    },
+    {
+      "name": "delivery_confirmed",
+      "kind": "signal",
+      "passed": false,
+      "detail": "A send was accepted by the provider but delivery was never confirmed.",
+      "evidence": [
+        "rcpt-001"
+      ]
+    },
+    {
+      "name": "all_approvals_resolved",
+      "kind": "signal",
+      "passed": true,
+      "detail": "All approvals resolved.",
+      "evidence": []
+    }
+  ],
+  "extraction": {
+    "model": "stub-deterministic",
+    "tokens_in": 218,
+    "tokens_out": 0,
+    "estimated": true
+  }
+}
