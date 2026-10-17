@@ -11,13 +11,15 @@ source event or artifact.
 Built for the NVIDIA x Nebius Global AI Hackathon (track: Best Apps & Agents).
 Public repo: `Ized09/baton`. License: MIT.
 
-## Status: Session 1 scaffold (local, offline)
+## Status: Scaffold + Nebius extraction + Replay UI + resume demo (local)
 
 Session 1 proves the core loop on fixtures: one bundle in → one source-linked
 recovery record out, persisted in SQLite, exportable to `handoff.json` +
-`handoff.md`. Extraction is **stubbed** (deterministic rules, no network).
-The real Nebius/Nemotron adapter plugs into the `Extractor` interface in a
-later session without restructuring.
+`handoff.md`. Extraction defaults to a deterministic stub (no network); the
+Nebius/Nemotron adapter (`NebiusExtractor`, live-verified against Token
+Factory) plugs into the same `Extractor` interface via `BATON_EXTRACTOR=nebius`.
+`web/` renders handoffs as the three-panel replay; `demo/` proves one handoff
+resumes exactly one bounded step.
 
 ## Quickstart
 
@@ -79,15 +81,19 @@ src/baton/
   cli.py       `baton recover` / `baton export`
   fixtures/    3 proof-case bundles
 tests/         suite covering the Session-1 done criterion
+web/           static Replay UI (Director's Cut view of any handoff.json)
+demo/          bounded resume demo (resume.py + README)
 ```
+
+## Done
+
+- Replay UI (`web/`): static Director's Cut view of any handoff.json.
+  Serve with `python3 -m http.server` from `web/`.
+- Bounded resume demo (`demo/`): `demo/resume.py` takes one handoff,
+  does one bounded step, verifies it. See `demo/README.md`.
 
 ## What's next (later sessions)
 
-- Nebius wiring: `NebiusExtractor` (Nemotron-3-Super for reasoning, Nano for
-  cheap summaries) behind the `Extractor` interface, using Token Factory.
-- Replay UI: the three-way side-by-side view.
-- Bounded resume demo: Baton writes a verified handoff, restarts a small
-  local task, completes its unfinished step.
 - Evaluation: the 12-case suite from the Codex brief (transcript-summary
   baseline vs Baton).
 - Optional Tavily bonus: one functional runtime Tavily call ("restore with
