@@ -122,6 +122,7 @@ function render(data, sourceLabel) {
   html += '<div class="panel"><h3>What changed</h3>' + itemsHtml(data.replay.changed) + "</div>";
   html += "</div>";
   html += '<div class="section"><h3>Completed</h3>' + itemsHtml(data.completed) + "</div>";
+  html += '<div class="section"><h3>Failed</h3>' + itemsHtml(data.failed || []) + "</div>";
   html += '<div class="section"><h3>Needs you</h3>' + itemsHtml(data.needs_you) + "</div>";
   html += '<div class="section"><h3>Changed</h3>' + itemsHtml(data.changed) + "</div>";
   html += '<div class="section"><h3>Next</h3><p><strong>' + esc(next.step) + "</strong> " + esc(next.reason || "") + "</p></div>";
