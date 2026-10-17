@@ -55,6 +55,12 @@ top-level fields:
 - "completed": list of objects, one per piece of work the evidence shows was
   actually done: {"claim", "evidence", "artifacts"}. "evidence" is a list of
   event ids. "artifacts" is a list of artifact ids (may be empty).
+- "failed": list of objects, one per piece of work the evidence shows ran
+  and failed: {"claim", "evidence", "artifacts"}. A tool_result with status
+  "failure" is a recorded failure: report it here, cite the failure event,
+  and never relabel it as incomplete. Incomplete means the work never
+  finished; failed means it ran and failed. Never put a recorded failure
+  in "completed".
 - "needs_you": list of objects, one per gap only a human can close:
   {"claim", "evidence", "artifacts"}.
 - "changed": list of objects, one per artifact that differs from its recorded
@@ -69,10 +75,16 @@ top-level fields:
 
 Every claim must cite evidence: event ids, artifact ids, or receipt ids
 present in the bundle. Never invent ids. Never claim work is complete
-without evidence. If a send was accepted but delivery is unconfirmed, say
+without evidence. If a tool result records a failure, report it in
+"failed", never in "completed", and never describe it as incomplete.
+If a send was accepted but delivery is unconfirmed, say
 so; do not upgrade it to delivered."""
 
 _CLAIM_LIST_FIELDS = ("completed", "needs_you", "changed", "contradictions")
+# "failed" follows the same claim-object rules as the other lists, but it
+# is optional in model output: older outputs that predate the field still
+# validate, and the pipeline treats a missing "failed" as an empty list.
+_OPTIONAL_CLAIM_LIST_FIELDS = ("failed",)
 _TOP_LEVEL_FIELDS = (
     "said",
     "receipts",
@@ -264,7 +276,9 @@ class NebiusExtractor:
             raise NebiusExtractionError(f"model output is not valid JSON: {exc}") from exc
         if not isinstance(data, dict):
             raise NebiusExtractionError("model output must be a JSON object")
-        unknown = sorted(set(data) - set(_TOP_LEVEL_FIELDS))
+        unknown = sorted(
+            set(data) - set(_TOP_LEVEL_FIELDS) - set(_OPTIONAL_CLAIM_LIST_FIELDS)
+        )
         if unknown:
             raise NebiusExtractionError(
                 f"model output has unexpected top-level fields: {unknown}"
@@ -285,8 +299,8 @@ class NebiusExtractor:
                 'model output "receipts" must be a list of objects with id and status'
             )
         claim_lists: dict[str, list[dict]] = {}
-        for field_name in _CLAIM_LIST_FIELDS:
-            items = data[field_name]
+        for field_name in _CLAIM_LIST_FIELDS + _OPTIONAL_CLAIM_LIST_FIELDS:
+            items = data.get(field_name, [])
             if not isinstance(items, list):
                 raise NebiusExtractionError(f'model output "{field_name}" must be a list')
             for item in items:
@@ -326,6 +340,7 @@ class NebiusExtractor:
             said=said,
             receipts=receipts,
             completed=claim_lists["completed"],
+            failed=claim_lists["failed"],
             needs_you=claim_lists["needs_you"],
             changed=claim_lists["changed"],
             contradictions=claim_lists["contradictions"],

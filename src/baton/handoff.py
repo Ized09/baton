@@ -22,7 +22,7 @@ def _items_md(items: list[dict]) -> str:
 
 def _source_index(record: dict) -> list[str]:
     ids: set[str] = set()
-    for section in ("completed", "needs_you", "changed", "contradictions"):
+    for section in ("completed", "failed", "needs_you", "changed", "contradictions"):
         for it in record.get(section, []):
             ids.update(it.get("evidence", []))
             ids.update(it.get("artifacts", []))
@@ -36,7 +36,7 @@ def render_markdown(record: dict) -> str:
     ep = record["episode"]
     nxt = record["next"]
     lines = [
-        f"# Baton handoff — {record['objective']}",
+        f"# Baton handoff: {record['objective']}",
         "",
         f"- Record: `{record['record_id']}` · Bundle: `{record['bundle_id']}` · {record['created_at']}",
         "",
@@ -55,6 +55,9 @@ def render_markdown(record: dict) -> str:
         "## Completed",
         "",
         _items_md(record["completed"]),
+        "## Failed",
+        "",
+        _items_md(record.get("failed", [])),
         "## Needs you",
         "",
         _items_md(record["needs_you"]),
@@ -63,7 +66,7 @@ def render_markdown(record: dict) -> str:
         _items_md(record["changed"]),
         "## Next",
         "",
-        f"**{nxt['step']}** — {nxt['reason']}",
+        f"**{nxt['step']}**: {nxt['reason']}",
         "",
         "## Replay: said vs receipts vs changed",
         "",
@@ -79,7 +82,7 @@ def render_markdown(record: dict) -> str:
         lines.append(
             f"- {r['id']}: {r['provider']} {r['status']}"
             + (f" (message {r['message_id']})" if r.get("message_id") else "")
-            + (f" — {r['detail']}" if r.get("detail") else "")
+            + (f" - {r['detail']}" if r.get("detail") else "")
         )
     if not record["replay"]["receipts"]:
         lines.append("_No receipts._")
@@ -88,7 +91,7 @@ def render_markdown(record: dict) -> str:
     lines += ["## Checks", ""]
     for c in record["checks"]:
         mark = "x" if c["passed"] else " "
-        lines.append(f"- [{mark}] {c['name']} ({c['kind']}) — {c['detail']}")
+        lines.append(f"- [{mark}] {c['name']} ({c['kind']}) - {c['detail']}")
     lines += ["", "## Source index", ""]
     for sid in _source_index(record):
         lines.append(f"- `{sid}`")

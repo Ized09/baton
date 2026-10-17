@@ -87,6 +87,7 @@ def recover(
             "changed": result.changed,
         },
         "completed": result.completed,
+        "failed": result.failed,
         "needs_you": result.needs_you,
         "changed": result.changed,
         "next": result.next_step,

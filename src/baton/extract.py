@@ -26,6 +26,7 @@ class ExtractionResult:
     said: list[str] = field(default_factory=list)
     receipts: list[dict] = field(default_factory=list)
     completed: list[dict] = field(default_factory=list)
+    failed: list[dict] = field(default_factory=list)
     needs_you: list[dict] = field(default_factory=list)
     changed: list[dict] = field(default_factory=list)
     contradictions: list[dict] = field(default_factory=list)
@@ -71,6 +72,27 @@ class StubExtractor:
                 and e.id not in referenced_calls
             ):
                 completed.append(self._work_item(e, artifacts))
+
+        # A recorded failure is its own outcome, not incomplete. Incomplete
+        # means the work never finished; failed means it ran and failed.
+        # A failed tool_call already referenced by a failed tool_result is
+        # the same failure, so it is listed once, under the result.
+        failed_result_refs = {
+            ref
+            for e in bundle.events
+            if e.type == "tool_result" and e.status == "failure"
+            for ref in e.ref_ids
+        }
+        failed: list[dict] = []
+        for e in bundle.events:
+            if e.type == "tool_result" and e.status == "failure":
+                failed.append(self._work_item(e, artifacts))
+            elif (
+                e.type == "tool_call"
+                and e.status == "failure"
+                and e.id not in failed_result_refs
+            ):
+                failed.append(self._work_item(e, artifacts))
 
         needs_you: list[dict] = []
         for ap in bundle.approvals:
@@ -133,6 +155,8 @@ class StubExtractor:
         has_final = any(e.type == "final_response" for e in bundle.events)
         if any(ap.status in ("timed_out", "expired") for ap in bundle.approvals):
             twist = "An approval timed out before the command ran."
+        elif failed:
+            twist = "The command ran and failed."
         elif completed and not has_final:
             twist = "The work was completed but never reported."
         elif any(r.status == "accepted" and r.delivered is not True for r in bundle.receipts):
@@ -154,6 +178,12 @@ class StubExtractor:
                 "step": f"Resolve: {first['claim']}",
                 "reason": "Something still needs you before this job can finish.",
                 "evidence": first["evidence"],
+            }
+        elif failed:
+            next_step = {
+                "step": "Review the recovery record.",
+                "reason": "A recorded failure needs review before this job can continue.",
+                "evidence": failed[0]["evidence"],
             }
         elif completed and not has_final:
             next_step = {
@@ -180,6 +210,7 @@ class StubExtractor:
             said=said,
             receipts=receipts,
             completed=completed,
+            failed=failed,
             needs_you=needs_you,
             changed=changed,
             contradictions=contradictions,
