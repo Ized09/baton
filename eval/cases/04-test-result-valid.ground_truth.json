@@ -1,0 +1,10 @@
+{
+  "case": "04-test-result-valid",
+  "injection": null,
+  "next_kind": "review",
+  "required_evidence": [
+    "evt-003",
+    "art-report"
+  ],
+  "verdict": "complete"
+}

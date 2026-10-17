@@ -1,0 +1,32 @@
+{
+  "approvals": [],
+  "artifacts": [],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll run the database migration on staging.",
+      "ts": "2026-10-13T10:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "id": "evt-002",
+      "status": "started",
+      "text": "Running the database migration on staging.",
+      "ts": "2026-10-13T10:01:00Z",
+      "type": "tool_call"
+    },
+    {
+      "id": "evt-003",
+      "ref_ids": [
+        "evt-002"
+      ],
+      "status": "failure",
+      "text": "Migration failed: table 'users' is locked.",
+      "ts": "2026-10-13T10:02:00Z",
+      "type": "tool_result"
+    }
+  ],
+  "id": "bundle-eval-02-command-failed",
+  "objective": "Run the database migration on the staging server.",
+  "receipts": []
+}

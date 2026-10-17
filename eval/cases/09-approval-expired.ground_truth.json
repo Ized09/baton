@@ -1,0 +1,9 @@
+{
+  "case": "09-approval-expired",
+  "injection": null,
+  "next_kind": "resolve",
+  "required_evidence": [
+    "evt-002"
+  ],
+  "verdict": "needs_human"
+}

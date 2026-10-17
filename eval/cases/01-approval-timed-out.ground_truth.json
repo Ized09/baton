@@ -1,0 +1,9 @@
+{
+  "case": "01-approval-timed-out",
+  "injection": null,
+  "next_kind": "resolve",
+  "required_evidence": [
+    "evt-003"
+  ],
+  "verdict": "needs_human"
+}

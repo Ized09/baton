@@ -1,0 +1,10 @@
+{
+  "case": "05-result-stale",
+  "injection": null,
+  "next_kind": "reverify",
+  "required_evidence": [
+    "evt-003",
+    "art-report"
+  ],
+  "verdict": "stale"
+}

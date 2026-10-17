@@ -1,0 +1,9 @@
+{
+  "case": "02-command-failed",
+  "injection": null,
+  "next_kind": "review",
+  "required_evidence": [
+    "evt-003"
+  ],
+  "verdict": "failed"
+}

@@ -1,0 +1,10 @@
+{
+  "case": "08-incompatible-records",
+  "injection": null,
+  "next_kind": "review",
+  "required_evidence": [
+    "evt-002",
+    "evt-003"
+  ],
+  "verdict": "contradictory"
+}

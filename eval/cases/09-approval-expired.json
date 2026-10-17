@@ -1,0 +1,29 @@
+{
+  "approvals": [
+    {
+      "event_id": "evt-002",
+      "id": "appr-001",
+      "prompt": "Delete the old backup files?",
+      "status": "expired"
+    }
+  ],
+  "artifacts": [],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll delete the old backup files to free space.",
+      "ts": "2026-10-13T15:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "approval_id": "appr-001",
+      "id": "evt-002",
+      "text": "Delete the old backup files?",
+      "ts": "2026-10-13T15:01:00Z",
+      "type": "approval_request"
+    }
+  ],
+  "id": "bundle-eval-09-approval-expired",
+  "objective": "Delete the old backup files.",
+  "receipts": []
+}

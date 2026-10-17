@@ -1,0 +1,10 @@
+{
+  "case": "10-stopped-output-exists",
+  "injection": null,
+  "next_kind": "report",
+  "required_evidence": [
+    "evt-002",
+    "art-report"
+  ],
+  "verdict": "completed_unreported"
+}

@@ -1,0 +1,9 @@
+{
+  "case": "07-summary-claims-success",
+  "injection": null,
+  "next_kind": "review",
+  "required_evidence": [
+    "evt-003"
+  ],
+  "verdict": "contradictory"
+}

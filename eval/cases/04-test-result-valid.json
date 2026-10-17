@@ -1,0 +1,47 @@
+{
+  "approvals": [],
+  "artifacts": [
+    {
+      "content": "42 passed.\nLogin fix verified.\n",
+      "id": "art-report",
+      "path": "reports/test-run.txt",
+      "sha256": "c078da27adac2c888af09cfc80b57587423a1a79e6983d2429730398caf86a81"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll run the test suite to confirm the login fix.",
+      "ts": "2026-10-13T11:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "artifact_id": "art-report",
+      "id": "evt-002",
+      "status": "success",
+      "text": "Ran the test suite.",
+      "ts": "2026-10-13T11:01:00Z",
+      "type": "tool_call"
+    },
+    {
+      "artifact_id": "art-report",
+      "id": "evt-003",
+      "ref_ids": [
+        "evt-002"
+      ],
+      "status": "success",
+      "text": "All 42 tests passed, including the login fix.",
+      "ts": "2026-10-13T11:02:00Z",
+      "type": "tool_result"
+    },
+    {
+      "id": "evt-004",
+      "text": "All tests pass. The login fix is confirmed.",
+      "ts": "2026-10-13T11:03:00Z",
+      "type": "final_response"
+    }
+  ],
+  "id": "bundle-eval-04-test-result-valid",
+  "objective": "Run the test suite and confirm the login fix.",
+  "receipts": []
+}

@@ -1,0 +1,10 @@
+{
+  "case": "11-malformed-evidence",
+  "injection": null,
+  "next_kind": "reverify",
+  "required_evidence": [
+    "evt-003",
+    "art-summary"
+  ],
+  "verdict": "stale"
+}

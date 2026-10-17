@@ -1,0 +1,36 @@
+{
+  "approvals": [],
+  "artifacts": [
+    {
+      "content": "# Monthly usage\n\n- Active users: 120\n- Reports generated: 4\n",
+      "id": "art-report",
+      "path": "reports/monthly-usage.md",
+      "sha256": "0643d7610d7fe2240cd0c29a40c01b0e8dc3047432123996f72a824d3a73c4a4"
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-001",
+      "text": "I'll generate the monthly usage report.",
+      "ts": "2026-10-13T16:00:00Z",
+      "type": "agent_message"
+    },
+    {
+      "artifact_id": "art-report",
+      "id": "evt-002",
+      "status": "success",
+      "text": "Generated the monthly usage report.",
+      "ts": "2026-10-13T16:01:00Z",
+      "type": "tool_call"
+    },
+    {
+      "id": "evt-003",
+      "text": "Checkpoint saved before the session stopped.",
+      "ts": "2026-10-13T16:02:00Z",
+      "type": "checkpoint"
+    }
+  ],
+  "id": "bundle-eval-10-stopped-output-exists",
+  "objective": "Generate the monthly usage report.",
+  "receipts": []
+}
