@@ -23,8 +23,8 @@ function evidenceLine(item) {
   return ' <span class="evidence">[' + parts.join(", ") + "]</span>";
 }
 
-function itemsHtml(items) {
-  if (!items || !items.length) return "<p>None.</p>";
+function itemsHtml(items, emptyText) {
+  if (!items || !items.length) return "<p>" + esc(emptyText || "None.") + "</p>";
   var out = "<ul>";
   items.forEach(function (item) {
     out += "<li>" + esc(item.claim || "") + evidenceLine(item) + "</li>";
@@ -89,8 +89,9 @@ function validateHandoff(data) {
 
 function provenanceHtml(data, sourceLabel) {
   var model = (data.extraction && data.extraction.model) || "unknown";
-  var tokens = "";
-  if (data.extraction) {
+  var tokens = "Token counts not recorded for this handoff.";
+  if (data.extraction && typeof data.extraction.tokens_in === "number" &&
+      typeof data.extraction.tokens_out === "number") {
     tokens = "Tokens in " + esc(data.extraction.tokens_in) + ", out " + esc(data.extraction.tokens_out) + ".";
     if (data.extraction.estimated) tokens += " Token counts are estimated.";
   }
@@ -111,6 +112,9 @@ function render(data, sourceLabel) {
   html += '<p class="objective">' + esc(data.objective) + "</p>";
   html += '<p class="meta">Record ' + esc(data.record_id) + " | Bundle " + esc(data.bundle_id) +
     " | Created " + esc(data.created_at) + " | Extraction model " + esc((data.extraction && data.extraction.model) || "") + "</p>";
+  if (data.verdict && typeof data.verdict === "string" && data.verdict.trim()) {
+    html += '<p class="verdict">' + esc(data.verdict) + "</p>";
+  }
   html += '<div class="episode">';
   html += "<div><h3>Previously</h3><p>" + esc(ep.previously) + "</p></div>";
   html += '<div><h3>Plot twist</h3><hr class="red-rule"><p>' + esc(ep.plot_twist) + "</p></div>";
@@ -119,14 +123,13 @@ function render(data, sourceLabel) {
   html += '<div class="panels">';
   html += '<div class="panel"><h3>What the agent said</h3>' + saidHtml(data.replay.said) + "</div>";
   html += '<div class="panel"><h3>What the receipts show</h3>' + receiptsHtml(data.replay.receipts) + "</div>";
-  html += '<div class="panel"><h3>What changed</h3>' + itemsHtml(data.replay.changed) + "</div>";
+  html += '<div class="panel"><h3>What changed</h3>' + itemsHtml(data.replay.changed, "No changes recorded.") + "</div>";
   html += "</div>";
-  html += '<div class="section"><h3>Completed</h3>' + itemsHtml(data.completed) + "</div>";
-  html += '<div class="section"><h3>Failed</h3>' + itemsHtml(data.failed || []) + "</div>";
-  html += '<div class="section"><h3>Needs you</h3>' + itemsHtml(data.needs_you) + "</div>";
-  html += '<div class="section"><h3>Changed</h3>' + itemsHtml(data.changed) + "</div>";
+  html += '<div class="section"><h3>Completed</h3>' + itemsHtml(data.completed, "Nothing completed.") + "</div>";
+  html += '<div class="section"><h3>Failed</h3>' + itemsHtml(data.failed || [], "Nothing failed.") + "</div>";
+  html += '<div class="section"><h3>Needs you</h3>' + itemsHtml(data.needs_you, "Nothing needs you.") + "</div>";
   html += '<div class="section"><h3>Next</h3><p><strong>' + esc(next.step) + "</strong> " + esc(next.reason || "") + "</p></div>";
-  html += '<div class="section"><h3>Contradictions</h3>' + itemsHtml(contradictions) + "</div>";
+  html += '<div class="section"><h3>Contradictions</h3>' + itemsHtml(contradictions, "No contradictions.") + "</div>";
   html += '<div class="section"><h3>Checks</h3>' + checksHtml(data.checks) + "</div>";
   document.getElementById("replay").innerHTML = html;
   document.getElementById("provenance").innerHTML = provenanceHtml(data, sourceLabel);
@@ -142,7 +145,9 @@ function clearError() {
 
 function setActiveButton(caseKey) {
   document.querySelectorAll(".case-nav button").forEach(function (btn) {
-    btn.classList.toggle("active", btn.getAttribute("data-case") === caseKey);
+    var isActive = btn.getAttribute("data-case") === caseKey;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", isActive ? "true" : "false");
   });
 }
 
@@ -150,6 +155,8 @@ function loadCase(caseKey) {
   clearError();
   setActiveButton(caseKey);
   var info = CASES[caseKey];
+  document.getElementById("replay").innerHTML = '<p class="loading">Loading ' + esc(info.label) + "…</p>";
+  document.getElementById("provenance").innerHTML = "";
   fetch(info.file)
     .then(function (resp) {
       if (!resp.ok) throw new Error("Could not load " + info.file + " (HTTP " + resp.status + ").");
@@ -158,30 +165,19 @@ function loadCase(caseKey) {
     .then(function (data) {
       render(validateHandoff(data), "Precomputed handoff: " + info.label + ".");
     })
-    .catch(function (err) { showError(err.message); });
+    .catch(function (err) {
+      document.getElementById("replay").innerHTML = '<p class="error">Could not load this case. The previous replay was cleared.</p>';
+      showError(err.message);
+    });
 }
 
 document.querySelectorAll(".case-nav button").forEach(function (btn) {
   btn.addEventListener("click", function () { loadCase(btn.getAttribute("data-case")); });
 });
 
-document.getElementById("render-paste").addEventListener("click", function () {
+function renderFile(file) {
   clearError();
   setActiveButton(null);
-  var text = document.getElementById("paste-input").value.trim();
-  if (!text) { showError("Paste a handoff JSON first."); return; }
-  try {
-    render(validateHandoff(JSON.parse(text)), "Pasted handoff.");
-  } catch (err) {
-    showError(err.message);
-  }
-});
-
-document.getElementById("file-input").addEventListener("change", function (event) {
-  clearError();
-  setActiveButton(null);
-  var file = event.target.files && event.target.files[0];
-  if (!file) return;
   var reader = new FileReader();
   reader.onload = function () {
     try {
@@ -191,6 +187,34 @@ document.getElementById("file-input").addEventListener("change", function (event
     }
   };
   reader.readAsText(file);
+}
+
+document.getElementById("render-paste").addEventListener("click", function () {
+  clearError();
+  setActiveButton(null);
+  var text = document.getElementById("paste-input").value.trim();
+  var fileInput = document.getElementById("file-input");
+  if (text) {
+    try {
+      render(validateHandoff(JSON.parse(text)), "Pasted handoff.");
+    } catch (err) {
+      showError(err.message);
+    }
+    fileInput.value = "";
+    return;
+  }
+  if (fileInput.files && fileInput.files[0]) {
+    renderFile(fileInput.files[0]);
+    return;
+  }
+  showError("Paste a handoff JSON first, or choose a file.");
+});
+
+document.getElementById("file-input").addEventListener("change", function (event) {
+  document.getElementById("paste-input").value = "";
+  var file = event.target.files && event.target.files[0];
+  if (!file) return;
+  renderFile(file);
 });
 
 loadCase("completed-unreported");
