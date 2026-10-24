@@ -1,0 +1,184 @@
+{
+  "record_id": "bd9db03135b7",
+  "bundle_id": "bundle-real-run-ui-fixes",
+  "objective": "Fix the Baton demo UI issues from the audit and ship them live.",
+  "created_at": "2026-10-24T17:08:45.483460+00:00",
+  "episode": {
+    "previously": "Objective: Fix the Baton demo UI issues from the audit and ship them live. Audit delivered: the paste box buries the replay, the third panel is dead in every demo, there is no verdict line, and there is no loading state.",
+    "plot_twist": "No single twist: review the record.",
+    "where_we_pick_up": "Review the recovery record."
+  },
+  "replay": {
+    "said": [
+      "Audit delivered: the paste box buries the replay, the third panel is dead in every demo, there is no verdict line, and there is no loading state."
+    ],
+    "receipts": [
+      {
+        "id": "rcpt-deploy",
+        "provider": "vercel",
+        "status": "delivered",
+        "message_id": "2f5cba4",
+        "delivered": true,
+        "detail": "Production deployment Ready for baton-web-lovat.vercel.app at main 2f5cba4."
+      }
+    ],
+    "changed": []
+  },
+  "completed": [
+    {
+      "claim": "Edited web/index.html: replay first, paste section below, footer added. (web/index.html)",
+      "evidence": [
+        "evt-002"
+      ],
+      "artifacts": [
+        "art-index"
+      ]
+    },
+    {
+      "claim": "Edited web/styles.css: verdict banner, loading state, focus rings, footer. (web/styles.css)",
+      "evidence": [
+        "evt-003"
+      ],
+      "artifacts": [
+        "art-styles"
+      ]
+    },
+    {
+      "claim": "Edited web/app.js: verdict render, duplicate Changed section removed, loading and stale-clear on error, file/paste fix. (web/app.js)",
+      "evidence": [
+        "evt-004"
+      ],
+      "artifacts": [
+        "art-app"
+      ]
+    },
+    {
+      "claim": "Edited web/data/never-executed.json: verdict banner text and a changed item from its own evidence. (web/data/never-executed.json)",
+      "evidence": [
+        "evt-005"
+      ],
+      "artifacts": [
+        "art-data-never"
+      ]
+    },
+    {
+      "claim": "Edited web/data/completed-unreported.json: verdict banner text and a changed item from its own evidence. (web/data/completed-unreported.json)",
+      "evidence": [
+        "evt-006"
+      ],
+      "artifacts": [
+        "art-data-completed"
+      ]
+    },
+    {
+      "claim": "Edited web/data/accepted-unknown.json: verdict banner text; changed stays empty. (web/data/accepted-unknown.json)",
+      "evidence": [
+        "evt-007"
+      ],
+      "artifacts": [
+        "art-data-accepted"
+      ]
+    },
+    {
+      "claim": "Render checks pass 9/9; resume demo still runs clean against the edited data.",
+      "evidence": [
+        "evt-008"
+      ],
+      "artifacts": []
+    },
+    {
+      "claim": "Pushed 6 files to Ized09/baton on main via the GitHub web UI, one commit per file.",
+      "evidence": [
+        "evt-010"
+      ],
+      "artifacts": []
+    },
+    {
+      "claim": "Vercel production deployment Ready at main 2f5cba4; live site shows verdict banners, replay-first layout, and the footer.",
+      "evidence": [
+        "evt-011"
+      ],
+      "artifacts": []
+    }
+  ],
+  "failed": [],
+  "needs_you": [],
+  "changed": [],
+  "next": {
+    "step": "Review the recovery record.",
+    "reason": "No blocking gap found.",
+    "evidence": []
+  },
+  "contradictions": [],
+  "checks": [
+    {
+      "name": "timestamps_ordered",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Events are in non-decreasing timestamp order.",
+      "evidence": []
+    },
+    {
+      "name": "references_resolve",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All event references resolve.",
+      "evidence": []
+    },
+    {
+      "name": "artifacts_present",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every referenced artifact is present.",
+      "evidence": []
+    },
+    {
+      "name": "checksums_match",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "All artifact checksums match their content.",
+      "evidence": []
+    },
+    {
+      "name": "receipts_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every receipt links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "approvals_linked",
+      "kind": "integrity",
+      "passed": true,
+      "detail": "Every approval links to a real event.",
+      "evidence": []
+    },
+    {
+      "name": "final_response_present",
+      "kind": "signal",
+      "passed": true,
+      "detail": "Session ended with a final response.",
+      "evidence": []
+    },
+    {
+      "name": "delivery_confirmed",
+      "kind": "signal",
+      "passed": true,
+      "detail": "No accepted sends to confirm.",
+      "evidence": []
+    },
+    {
+      "name": "all_approvals_resolved",
+      "kind": "signal",
+      "passed": true,
+      "detail": "All approvals resolved.",
+      "evidence": []
+    }
+  ],
+  "extraction": {
+    "model": "stub-deterministic",
+    "tokens_in": 7927,
+    "tokens_out": 0,
+    "estimated": true
+  }
+}
