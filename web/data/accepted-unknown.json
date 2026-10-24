@@ -115,5 +115,6 @@
     "tokens_in": 218,
     "tokens_out": 0,
     "estimated": true
-  }
+  },
+  "verdict": "Verdict: accepted, delivery unknown. The provider took the invoice, but no delivery confirmation ever came back."
 }
