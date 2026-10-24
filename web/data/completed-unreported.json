@@ -13,7 +13,17 @@
       "I'll write the release notes for v0.3."
     ],
     "receipts": [],
-    "changed": []
+    "changed": [
+      {
+        "claim": "Wrote the v0.3 release notes to CHANGELOG.md.",
+        "evidence": [
+          "evt-003"
+        ],
+        "artifacts": [
+          "art-changelog"
+        ]
+      }
+    ]
   },
   "completed": [
     {
@@ -27,7 +37,17 @@
     }
   ],
   "needs_you": [],
-  "changed": [],
+  "changed": [
+    {
+      "claim": "Wrote the v0.3 release notes to CHANGELOG.md.",
+      "evidence": [
+        "evt-003"
+      ],
+      "artifacts": [
+        "art-changelog"
+      ]
+    }
+  ],
   "next": {
     "step": "Report the completed work to the user.",
     "reason": "The work is done and verified, but the session ended before it was reported.",
@@ -106,5 +126,6 @@
     "tokens_in": 219,
     "tokens_out": 0,
     "estimated": true
-  }
+  },
+  "verdict": "Verdict: completed, never reported. The v0.3 notes are in CHANGELOG.md, but the session ended before telling you."
 }
