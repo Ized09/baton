@@ -116,6 +116,36 @@ body {
 
 .error { color: #111; font-weight: 700; min-height: 1.2em; }
 
+.loading { font-style: italic; color: #444; }
+
+.verdict {
+  font-size: 20px;
+  font-weight: 800;
+  border-left: 6px solid #d00;
+  padding: 6px 0 6px 14px;
+  margin: 0 0 20px;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+input:focus-visible {
+  outline: 3px solid #d00;
+  outline-offset: 2px;
+}
+
+.page-footer {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px;
+  border-top: 2px solid #111;
+  font-size: 14px;
+  color: #444;
+}
+
+.page-footer p { margin: 4px 0; }
+
+.page-footer a { color: #111; font-weight: 700; }
+
 #replay, .provenance {
   max-width: 1080px;
   margin: 0 auto;
