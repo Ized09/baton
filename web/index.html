@@ -20,9 +20,13 @@
   <button type="button" data-case="accepted-unknown">Accepted, delivery unknown</button>
 </nav>
 
+<main id="replay" aria-live="polite"></main>
+
+<section class="provenance" id="provenance" aria-label="How this handoff was made"></section>
+
 <section class="load-own" aria-label="Load your own handoff">
   <h2>Load your own handoff</h2>
-  <p>Paste a handoff.json below, or choose a file. The page renders it locally. Nothing is uploaded.</p>
+  <p>Paste a handoff.json below, or choose a file. The page renders it locally. Nothing is uploaded. Or use one of the proof cases above.</p>
   <label for="paste-input">Paste handoff JSON</label>
   <textarea id="paste-input" rows="6" spellcheck="false" placeholder="Paste handoff JSON here"></textarea>
   <div class="load-row">
@@ -32,9 +36,10 @@
   <p class="error" id="load-error" role="alert"></p>
 </section>
 
-<main id="replay" aria-live="polite"></main>
-
-<section class="provenance" id="provenance" aria-label="How this handoff was made"></section>
+<footer class="page-footer">
+  <p>A handoff is Baton's record of one agent run: what the agent said, what the receipts prove, and what changed.</p>
+  <p><a href="https://github.com/Ized09/baton">Baton on GitHub</a> · Built for the NVIDIA x Nebius hackathon.</p>
+</footer>
 
 <script src="app.js"></script>
 </body>
