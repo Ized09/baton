@@ -11,7 +11,7 @@ source event or artifact.
 Built for the NVIDIA x Nebius Global AI Hackathon (track: Best Apps & Agents).
 Public repo: `Ized09/baton`. License: MIT.
 
-## Status: Scaffold + Nebius extraction + Replay UI + resume demo (local)
+## Status: Scaffold + Nebius extraction + Replay UI + resume demo (local) + V1x on-ramps
 
 Session 1 proves the core loop on fixtures: one bundle in → one source-linked
 recovery record out, persisted in SQLite, exportable to `handoff.json` +
@@ -31,6 +31,43 @@ python -m baton.cli export <record_id> --db /tmp/baton.db --out-dir /tmp/out
 ```
 
 Or install editable: `pip install -e .` then use the `baton` command.
+
+## Use it on your own agent (V1x)
+
+The core loop is one bundle in, one handoff out. V1x adds the on-ramps
+that make that loop usable on a real agent run, not just the fixtures.
+
+**1. Install the skill.** `SKILL.md` (repo root) teaches an agent to keep
+a bundle-shaped log while it works: events, artifacts with sha256,
+receipts, approvals. When a session ends, or when you ask it to diagnose
+a session, the agent emits a bundle. No code changes to the agent.
+
+**2. Convert, or log from now on.** A converter turns one agent's logs
+into a valid bundle. The demo site lists converter status per agent
+(Muse needs none: ask it to emit a bundle from its own record; Codex,
+Claude Code, Copilot, and Cursor adapters are planned and each needs one
+sample session log to build against). If your agent keeps no logs at all,
+no converter can recover it: install the skill and every future session
+becomes diagnosable.
+
+**3. Recover and replay.** Turn any bundle into a handoff:
+
+```bash
+python -m baton.cli recover bundle.json --db /tmp/baton.db --out-dir /tmp/out
+```
+
+Then open the handoff in the demo UI (`web/`, live at
+baton-web-lovat.vercel.app): paste the JSON or choose the file. Rendering
+is local; nothing is uploaded.
+
+**4. See a real run.** The demo's fourth case, "Real run", is not a
+fixture. It is a handoff recovered from a real session: the UI-fix and
+ship run of this demo itself, with its bundle in
+`web/data/real-run-bundle.json` so the whole path is reproducible. Its
+extraction is the offline stub, so its provenance reads
+stub-deterministic; the run, its commits, and its Vercel delivery receipt
+are real. Re-running the bundle with `BATON_EXTRACTOR=nebius` and a
+Token Factory key produces the same record with Nemotron provenance.
 
 ## The recovery record
 
