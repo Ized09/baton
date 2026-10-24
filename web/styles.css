@@ -142,6 +142,46 @@ input:focus-visible {
   color: #444;
 }
 
+.skill, .converters {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px;
+  border-bottom: 1px solid #111;
+}
+
+.skill h2, .converters h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.skill p, .converters p { margin: 4px 0 12px; font-size: 14px; }
+
+.skill pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  border: 1px solid #111;
+  background: #fff;
+  padding: 10px;
+  max-height: 480px;
+  overflow: auto;
+}
+
+.skill summary {
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.converters ul { margin: 0 0 12px; padding-left: 18px; }
+.converters li { margin-bottom: 6px; font-size: 15px; }
+
+.skill a, .converters a { color: #111; font-weight: 700; }
+
 .page-footer p { margin: 4px 0; }
 
 .page-footer a { color: #111; font-weight: 700; }

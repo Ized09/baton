@@ -4,7 +4,8 @@
 var CASES = {
   "never-executed": { file: "data/never-executed.json", label: "Never executed" },
   "completed-unreported": { file: "data/completed-unreported.json", label: "Completed, never reported" },
-  "accepted-unknown": { file: "data/accepted-unknown.json", label: "Accepted, delivery unknown" }
+  "accepted-unknown": { file: "data/accepted-unknown.json", label: "Accepted, delivery unknown" },
+  "real-run": { file: "data/real-run.json", label: "Real run" }
 };
 
 function esc(value) {
@@ -215,6 +216,21 @@ document.getElementById("file-input").addEventListener("change", function (event
   var file = event.target.files && event.target.files[0];
   if (!file) return;
   renderFile(file);
+});
+
+document.getElementById("copy-skill").addEventListener("click", function () {
+  var text = document.getElementById("skill-text").textContent;
+  var status = document.getElementById("copy-status");
+  function done(msg) { status.textContent = msg; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () {
+      done("Skill copied.");
+    }, function () {
+      done("Copy failed. Select the skill text and copy it by hand.");
+    });
+  } else {
+    done("Clipboard unavailable here. Select the skill text and copy it by hand.");
+  }
 });
 
 loadCase("completed-unreported");

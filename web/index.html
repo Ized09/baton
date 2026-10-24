@@ -18,6 +18,7 @@
   <button type="button" data-case="never-executed">Never executed</button>
   <button type="button" data-case="completed-unreported">Completed, never reported</button>
   <button type="button" data-case="accepted-unknown">Accepted, delivery unknown</button>
+  <button type="button" data-case="real-run">Real run</button>
 </nav>
 
 <main id="replay" aria-live="polite"></main>
@@ -34,6 +35,122 @@
     <button type="button" id="render-paste">Render pasted handoff</button>
   </div>
   <p class="error" id="load-error" role="alert"></p>
+</section>
+
+
+<section class="skill" aria-label="Use Baton on your own agent">
+  <h2>Use Baton on your own agent</h2>
+  <p>Install the skill into your agent's instructions. It teaches the agent to keep a bundle-shaped log while it works, and to emit a bundle when a session ends or when you ask it to diagnose a session. The full text is below, ready to copy. It also lives in the repo as <a href="https://github.com/Ized09/baton/blob/main/SKILL.md">SKILL.md</a>.</p>
+  <div class="load-row">
+    <button type="button" id="copy-skill">Copy skill text</button>
+  </div>
+  <details>
+    <summary>Read the skill</summary>
+    <pre id="skill-text"># Baton skill: teach your agent to leave a handoff
+
+Baton answers one question about an agent run: did the agent actually do
+what it said it did? It does that by auditing the run&#x27;s history against
+its receipts, not by trusting the agent&#x27;s own summary.
+
+Install this file into your agent&#x27;s instructions. No code changes to the
+agent are required. The agent only has to keep its diary in Baton&#x27;s shape.
+
+## When to use Baton
+
+- A session ends, or is about to end, and you want a record of it.
+- A session was interrupted and you need to know what is done, what is
+  waiting on you, and what comes next, instead of starting over.
+- The user asks to diagnose a session: &quot;diagnose this session&quot;, &quot;what did
+  you actually do&quot;, &quot;baton this run&quot;.
+
+## While you work: keep the log
+
+Record four kinds of facts as they happen. Do not summarise them away.
+The log is the evidence; the summary comes later.
+
+1. **Events**, in order, with ISO-8601 timestamps. Types, exactly:
+   `agent_message`, `tool_call`, `tool_result`, `approval_request`,
+   `final_response`, `checkpoint`.
+2. **Artifacts**: every file the run creates or changes, with its path,
+   its full content, and its sha256 digest. Compute the digest, never
+   guess it.
+3. **Receipts**: for every send or delivery, the provider, the status
+   (`accepted`, `delivered`, `failed`, or `unknown`), the message id, and
+   whether delivery is confirmed (`true`, `false`, or `null` when
+   unconfirmed).
+4. **Approvals**: every decision asked of a human, with the prompt and
+   the status (`pending`, `approved`, `denied`, `timed_out`, `expired`).
+
+Link events to artifacts, receipts, and approvals by id. Never invent a
+receipt, a checksum, or an approval. If something is unknown, say so:
+`unknown` and `null` are valid answers. A gap named is better than a gap
+filled in.
+
+## When the session ends, or on &quot;diagnose&quot;: emit a bundle
+
+Write one JSON file in this shape:
+
+```json
+{
+  &quot;id&quot;: &quot;bundle-my-run&quot;,
+  &quot;objective&quot;: &quot;What you asked the agent to do.&quot;,
+  &quot;events&quot;: [
+    {&quot;id&quot;: &quot;evt-001&quot;, &quot;ts&quot;: &quot;2026-10-24T10:00:00Z&quot;, &quot;type&quot;: &quot;agent_message&quot;, &quot;text&quot;: &quot;I&#x27;ll do the thing.&quot;},
+    {&quot;id&quot;: &quot;evt-002&quot;, &quot;ts&quot;: &quot;2026-10-24T10:01:00Z&quot;, &quot;type&quot;: &quot;tool_call&quot;, &quot;text&quot;: &quot;Called the send tool.&quot;, &quot;receipt_id&quot;: &quot;rcpt-001&quot;},
+    {&quot;id&quot;: &quot;evt-003&quot;, &quot;ts&quot;: &quot;2026-10-24T10:02:00Z&quot;, &quot;type&quot;: &quot;approval_request&quot;, &quot;text&quot;: &quot;Asked you to confirm.&quot;, &quot;approval_id&quot;: &quot;appr-001&quot;}
+  ],
+  &quot;artifacts&quot;: [
+    {&quot;id&quot;: &quot;art-001&quot;, &quot;path&quot;: &quot;report.md&quot;, &quot;content&quot;: &quot;...&quot;, &quot;sha256&quot;: &quot;&lt;real sha256sum of the file&gt;&quot;}
+  ],
+  &quot;receipts&quot;: [
+    {&quot;id&quot;: &quot;rcpt-001&quot;, &quot;event_id&quot;: &quot;evt-002&quot;, &quot;provider&quot;: &quot;mail-provider&quot;, &quot;status&quot;: &quot;accepted&quot;, &quot;message_id&quot;: &quot;msg-1042&quot;, &quot;delivered&quot;: null, &quot;detail&quot;: &quot;Accepted, no delivery confirmation.&quot;}
+  ],
+  &quot;approvals&quot;: [
+    {&quot;id&quot;: &quot;appr-001&quot;, &quot;event_id&quot;: &quot;evt-003&quot;, &quot;prompt&quot;: &quot;Send it?&quot;, &quot;status&quot;: &quot;timed_out&quot;}
+  ]
+}
+```
+
+Rules the validator enforces: event ids unique, timestamps non-decreasing,
+every `artifact_id`, `receipt_id`, `approval_id`, and `ref_ids` entry must
+reference something that exists, artifact sha256 must be 64 hex characters.
+
+## Turn the bundle into a handoff
+
+Hand the bundle to Baton, or tell the user to run:
+
+```bash
+baton recover bundle.json --out-dir ./demo-out
+```
+
+That writes `handoff.json` and `handoff.md`: what the agent said, what the
+receipts show, what changed, what is completed, what failed, what needs a
+human, and what comes next. Any handoff renders in the demo UI by pasting
+the JSON or choosing the file. Nothing is uploaded; rendering is local.
+
+With a real model instead of the offline stub, set `BATON_EXTRACTOR=nebius`
+and `NEBIUS_API_KEY` first. The stub is the default and needs no key.
+
+## What Baton is not
+
+It does not watch a live session. There is no daemon or log tail in v1.
+It audits a finished or interrupted run after the fact. If a session was
+never logged, Baton cannot recover it. Log from now on, and every future
+session becomes diagnosable.
+</pre>
+  </details>
+  <p class="error" id="copy-status" role="status"></p>
+</section>
+
+<section class="converters" aria-label="Log converters">
+  <h2>Converters</h2>
+  <p>A converter turns one agent's logs into a valid bundle. Baton defines one strict bundle shape; each agent gets an adapter. Validation rejects bad mappings loudly and names the gaps instead of filling them in.</p>
+  <ul>
+    <li><strong>Muse</strong> (this assistant): no converter needed. Ask it at the end of a run to emit a bundle from its own record.</li>
+    <li><strong>Codex</strong>: adapter planned. It needs one sample session log to build against.</li>
+    <li><strong>Claude Code, GitHub Copilot, Cursor</strong>: adapters planned, in market order. Same deal: one sample log each.</li>
+  </ul>
+  <p>If your agent keeps no logs at all, no converter can recover it. Install the skill instead, and every future session becomes diagnosable.</p>
 </section>
 
 <footer class="page-footer">
