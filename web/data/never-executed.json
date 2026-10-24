@@ -13,7 +13,17 @@
       "I'll draft the weekly status email and send it to the team list."
     ],
     "receipts": [],
-    "changed": []
+    "changed": [
+      {
+        "claim": "Created drafts/weekly-status.md with the weekly status email.",
+        "evidence": [
+          "evt-002"
+        ],
+        "artifacts": [
+          "art-draft"
+        ]
+      }
+    ]
   },
   "completed": [
     {
@@ -35,7 +45,17 @@
       "artifacts": []
     }
   ],
-  "changed": [],
+  "changed": [
+    {
+      "claim": "Created drafts/weekly-status.md with the weekly status email.",
+      "evidence": [
+        "evt-002"
+      ],
+      "artifacts": [
+        "art-draft"
+      ]
+    }
+  ],
   "next": {
     "step": "Resolve: Approval unresolved (timed_out): Send this email to the team list?",
     "reason": "Something still needs you before this job can finish.",
@@ -116,5 +136,6 @@
     "tokens_in": 241,
     "tokens_out": 0,
     "estimated": true
-  }
+  },
+  "verdict": "Verdict: never executed. The draft exists, but the send never ran because the approval timed out."
 }
